@@ -1,6 +1,6 @@
 # Labs::Deployer
 
-TODO: Write a gem description
+Thor task to help w/ deployment of cookbooks to S3 for use by Chef-Solo
 
 ## Installation
 
@@ -18,7 +18,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Thos task that helps bundle and deploy cookbooks to S3.  Expects the following in your knife.rb
+
+```ruby
+
+knife[:aws_access_key_id]      = "abc123"
+knife[:aws_secret_access_key]  = "abc123"
+knife[:bucket]  = 'cookbooks.myserver.com'
+```
 
 ## Contributing
 
