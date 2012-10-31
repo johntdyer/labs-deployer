@@ -17,7 +17,7 @@ class Solo < Thor
 
   AWS_ACCESS_KEY_ID      =  Chef::Config[:knife][:aws_access_key_id]
   AWS_SECRET_ACCESS_KEY  =  Chef::Config[:knife][:aws_secret_access_key]
-  AWS_BUCKET             =  Chef::Config[:solo][:bucket]
+  AWS_BUCKET             =  Chef::Config[:knife][:bucket]
 
   desc "package", "package and deploy a cookbook"
 
