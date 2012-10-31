@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Labs::Deployer::VERSION
   gem.authors       = ["John Dyer"]
   gem.email         = ["johntdyer@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Thor tasks to package chef solo cookbooks}
+  gem.summary       = %q{Deployed cookbooks to s3}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
