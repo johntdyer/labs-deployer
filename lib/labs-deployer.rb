@@ -23,9 +23,9 @@ class Solo < Thor
 
   def package
 
-    #get_dependencies
+    get_dependencies
     pkg = package_files
-    #upload_cookbooks(pkg)
+    upload_cookbooks(pkg)
   end
 
   private
@@ -84,7 +84,6 @@ class Solo < Thor
   end
 
   def get_cookbook_version
-    #Berkshelf.find_metadata
     IO.read(Berkshelf.find_metadata).match(/^version.*/).to_s.split('"')[1]
   end
 
