@@ -13,8 +13,8 @@ require 's3'
 
 class Solo < Thor
 
-  Berkshelf.load_config
-
+  #Berkshelf.load_config
+  Berkshelf::Config.new
   AWS_ACCESS_KEY_ID      =  Chef::Config[:knife][:aws_access_key_id]
   AWS_SECRET_ACCESS_KEY  =  Chef::Config[:knife][:aws_secret_access_key]
   AWS_BUCKET             =  Chef::Config[:knife][:bucket]
@@ -22,7 +22,6 @@ class Solo < Thor
   desc "package", "package and deploy a cookbook"
 
   def package
-
     get_dependencies
     pkg = package_files
     upload_cookbooks(pkg)
