@@ -15,9 +15,9 @@ class Solo < Thor
 
   #Berkshelf.load_config
   Berkshelf::Config.new
-  AWS_ACCESS_KEY_ID      =  Chef::Config[:knife][:aws_access_key_id]
-  AWS_SECRET_ACCESS_KEY  =  Chef::Config[:knife][:aws_secret_access_key]
-  AWS_BUCKET             =  Chef::Config[:knife][:bucket]
+  @aws_access_key_id      =  Chef::Config[:knife][:aws_access_key_id]
+  @aws_secret_access_key  =  Chef::Config[:knife][:aws_secret_access_key]
+  @aws_bucket             =  Chef::Config[:knife][:bucket]
 
   desc "package", "package and deploy a cookbook"
 
@@ -31,24 +31,25 @@ class Solo < Thor
 
   def get_dependencies()
     say "Gathering cookbook dependencies", :green
-    `mkdir -p /tmp/berkshelf-tmp`
-    invoke("berkshelf:install", [], path: "/tmp/berkshelf-tmp", berksfile: "./Berksfile")
+    `rm -rf /tmp/cookbooks`
+    invoke("berkshelf:install", [], path: "/tmp/cookbooks", berksfile: "./Berksfile")
   end
 
   def package_files
     say "Packaging cookbook", :green
-    `tar zcf #{get_cookbook_name}.#{get_cookbook_version}.tgz -C /tmp/berkshelf-tmp .`
-    FileUtils.mv "#{get_cookbook_name}.#{get_cookbook_version}.tgz", '/tmp'
+    FileUtils.rm_rf("/tmp/cookbooks")
+    `cd /tmp; tar zcf #{get_cookbook_name}.#{get_cookbook_version}.tgz ./cookbooks`
+    #FileUtils.mv "#{get_cookbook_name}.#{get_cookbook_version}.tgz", '/tmp'
     return "/tmp/#{get_cookbook_name}.#{get_cookbook_version}.tgz"
   end
 
   def upload_cookbooks(file)
     service = S3::Service.new({
-                           :access_key_id     =>  AWS_ACCESS_KEY_ID,
-                           :secret_access_key =>  AWS_SECRET_ACCESS_KEY
+                           :access_key_id     =>  @aws_access_key_id,
+                           :secret_access_key =>  @aws_secret_access_key
                            })
 
-    bucket = service.buckets.find(AWS_BUCKET)
+    bucket = service.buckets.find(@aws_bucket)
 
     say "Uploading cookbook [#{file}]", :green
 
