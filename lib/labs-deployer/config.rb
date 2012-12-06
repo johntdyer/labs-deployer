@@ -5,7 +5,8 @@ module VoxeoLabs
 
     attr_reader :bucket_name, :aws_secret, :aws_key, :project_name
 
-    def initialize(dir,file_name=".deployer")
+    def initialize(dir)
+      file_name=".deployer"
 
       Pathname.new(dir).ascend do |dir|
         config_file = dir + file_name
@@ -42,3 +43,6 @@ module VoxeoLabs
 
   end
 end
+
+# require 'berkshelf/cli'
+# p VoxeoLabs::Config.new(File.dirname(Berkshelf.find_metadata("/Users/jdyer/Dropbox/Projects/redgenie/redgenie-chef")))

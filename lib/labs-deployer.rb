@@ -17,8 +17,8 @@ class Solo < Thor
 
   @config = VoxeoLabs::Config.new(
     File.dirname(
-      Berkshelf.find_metadata(".").expand_path
-    )
+      Berkshelf.find_metadata(".")
+    ).expand_path
   )
 
   p "===="
