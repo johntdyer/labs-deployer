@@ -20,7 +20,7 @@ class Solo < Thor
 
   def package
     @config = VoxeoLabs::Config.new(Dir.pwd)
-    get_dependencies
+    #get_dependencies
     pkg = package_files
     upload_cookbooks(pkg)
   end
@@ -49,7 +49,7 @@ class Solo < Thor
 
     ## Only upload files, we're not interested in directories
     if File.file?(file)
-      remote_file = "#{get_cookbook_name}/#{file.split("/")[-1]}"
+      remote_file = "#{get_folder_name}/#{file.split("/")[-1]}"
 
       begin
         obj = bucket.objects.find_first(remote_file)
@@ -63,7 +63,7 @@ class Solo < Thor
         obj = nil
       end
 
-      say "== Uploading #{file}", :green
+      say "== Uploading #{file} to #{get_folder_name}", :green
       obj = bucket.objects.build(remote_file)
       obj.content = open(file)
       obj.content_type = MIME::Types.type_for(file).to_s
@@ -77,19 +77,22 @@ class Solo < Thor
     IO.read(Berkshelf.find_metadata).match(/^version.*/).to_s.split('"')[1]
   end
 
-  def get_cookbook_name
-
-
+  def get_folder_name
     if @config.project_name
       return @config.project_name
     else
-      name = IO.read(Berkshelf.find_metadata).match(/^name.*/).to_s.split('"')[1]
-      if name.nil?
-        return Dir.pwd.split("/")[-1]
-      else
-        return name
-      end
+      get_cookbook_name
     end
+  end
+
+  def get_cookbook_name
+    name = IO.read(Berkshelf.find_metadata).match(/^name.*/).to_s.split('"')[1]
+    if name.nil?
+      return Dir.pwd.split("/")[-1]
+    else
+      return name
+    end
+
   end
 
 end
