@@ -9,7 +9,7 @@ module VoxeoLabs
 
     def initialize(dir)
 
-      Pathname.new(dir)).ascend do |dir|
+      Pathname.new(dir).ascend do |dir|
         config_file = dir + CONFIG_NAME
         if dir.children.include?(config_file)
           merge_config(YAML::load_file(config_file))
