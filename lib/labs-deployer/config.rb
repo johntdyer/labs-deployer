@@ -42,6 +42,3 @@ module VoxeoLabs
 
   end
 end
-
-a = VoxeoLabs::Config.new
-p a#.project_name
