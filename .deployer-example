@@ -1,0 +1,4 @@
+project_name: tropo/12.0/cookbooks/functional_deployment
+aws_key: 123
+aws_secret: 123
+bucket_name: cookbooks.voxeo.net
