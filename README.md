@@ -18,13 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-Thos task that helps bundle and deploy cookbooks to S3.  Expects the following in your knife.rb
+Thos task that helps bundle and deploy cookbooks to S3.  Ascends path looking for .deployer file.  A local .deployer files attributes will take precedence over one in a higher scope.  The contents of this file should contain one or more of the following:
 
 ```ruby
-
-knife[:aws_access_key_id]      = "abc123"
-knife[:aws_secret_access_key]  = "abc123"
-knife[:bucket]  = 'cookbooks.myserver.com'
+bucket_name: cookbooks.something.com
+aws_key: abc
+aws_secret: 123
+project_name: tropo/12.0/cookbooks/functional_deployment
 ```
 
 ## Contributing
