@@ -3,17 +3,17 @@ module VoxeoLabs
     require 'pathname'
     require 'yaml'
 
-    CONFIG_NAME=".deployer"
-
     attr_reader :bucket_name, :aws_secret, :aws_key, :project_name
 
-    def initialize(dir)
+    def initialize(dir,file_name=".deployer")
 
       Pathname.new(dir).ascend do |dir|
-        config_file = dir + CONFIG_NAME
+        config_file = dir + file_name
+
         if dir.children.include?(config_file)
           merge_config(YAML::load_file(config_file))
         end
+
       end
 
     end
