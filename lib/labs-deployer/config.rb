@@ -7,10 +7,9 @@ module VoxeoLabs
 
     attr_reader :bucket_name, :aws_secret, :aws_key, :project_name
 
+    def initialize(dir)
 
-    def initialize
-
-      Pathname.new(File.dirname(__FILE__)).ascend do |dir|
+      Pathname.new(dir)).ascend do |dir|
         config_file = dir + CONFIG_NAME
         if dir.children.include?(config_file)
           merge_config(YAML::load_file(config_file))
@@ -43,3 +42,6 @@ module VoxeoLabs
 
   end
 end
+
+a = VoxeoLabs::Config.new
+p a#.project_name

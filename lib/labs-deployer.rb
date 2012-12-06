@@ -15,8 +15,11 @@ class Solo < Thor
 
   Berkshelf::Config.new
 
-  @config = VoxeoLabs::Config.new
+  @config = VoxeoLabs::Config.new(File.dirname(Berkshelf.find_metadata(".").expand_path))
 
+  p "===="
+  p @config
+  exit
   desc "package", "package and deploy a cookbook"
 
   def package
