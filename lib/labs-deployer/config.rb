@@ -10,10 +10,10 @@ module VoxeoLabs
 
       Pathname.new(dir).ascend do |dir|
         config_file = dir + file_name
-
-        if dir.children.include?(config_file)
-          merge_config(YAML::load_file(config_file))
-        end
+          if dir.children.include?(config_file)
+            merge_config(YAML::load_file(config_file))
+          end
+        #end
 
       end
 
@@ -36,13 +36,10 @@ module VoxeoLabs
       end
 
       if config['project_name']
-        @project_name = c['project_name'] unless @project_name
+        @project_name = config['project_name'] unless @project_name
       end
 
     end
 
   end
 end
-
-# require 'berkshelf/cli'
-# p VoxeoLabs::Config.new(File.dirname(Berkshelf.find_metadata("/Users/jdyer/Dropbox/Projects/redgenie/redgenie-chef")))

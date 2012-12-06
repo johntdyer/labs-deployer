@@ -15,18 +15,11 @@ class Solo < Thor
 
   Berkshelf::Config.new
 
-  @config = VoxeoLabs::Config.new(
-    File.dirname(
-      Berkshelf.find_metadata(".")
-    ).expand_path
-  )
 
-  p "===="
-  p @config
-  exit
   desc "package", "package and deploy a cookbook"
 
   def package
+    @config = VoxeoLabs::Config.new(Dir.pwd)
     get_dependencies
     pkg = package_files
     upload_cookbooks(pkg)
@@ -86,15 +79,17 @@ class Solo < Thor
 
   def get_cookbook_name
 
-    return @config.project_name if @config.project_name
 
-    name = IO.read(Berkshelf.find_metadata).match(/^name.*/).to_s.split('"')[1]
-    if name.nil?
-      return Dir.pwd.split("/")[-1]
+    if @config.project_name
+      return @config.project_name
     else
-      return name
+      name = IO.read(Berkshelf.find_metadata).match(/^name.*/).to_s.split('"')[1]
+      if name.nil?
+        return Dir.pwd.split("/")[-1]
+      else
+        return name
+      end
     end
-
   end
 
 end
