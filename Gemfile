@@ -6,3 +6,4 @@ gemspec
 gem 'rake'
 gem 'berkshelf', '= 1.0.0'
 gem 'thor'
+gem 'mash'
