@@ -10,10 +10,12 @@ require 'digest/md5'
 require 'mime/types'
 require 'berkshelf/cli'
 require 's3'
-
+require 'labs-deployer/config'
 class Solo < Thor
 
   Berkshelf::Config.new
+
+  @config = VoxeoLabs::Config.new
 
   desc "package", "package and deploy a cookbook"
 
@@ -39,10 +41,10 @@ class Solo < Thor
 
   def upload_cookbooks(file)
     service = S3::Service.new({
-                           :access_key_id     =>  Chef::Config[:knife][:aws_access_key_id],
-                           :secret_access_key =>  Chef::Config[:knife][:aws_secret_access_key]
-                           })
-    bucket = service.buckets.find(Chef::Config[:knife][:bucket])
+                                :access_key_id     =>  @config.aws_key, #Chef::Config[:knife][:aws_access_key_id],
+                                :secret_access_key =>  @config.aws_secret #@Chef::Config[:knife][:aws_secret_access_key]
+    })
+    bucket = service.buckets.find(@config.bucket_name)
     say "== Uploading cookbook [#{file}]", :green
 
     ## Only upload files, we're not interested in directories
@@ -76,6 +78,9 @@ class Solo < Thor
   end
 
   def get_cookbook_name
+
+    return @config.project_name if @config.project_name
+
     name = IO.read(Berkshelf.find_metadata).match(/^name.*/).to_s.split('"')[1]
     if name.nil?
       return Dir.pwd.split("/")[-1]
