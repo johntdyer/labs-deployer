@@ -5,16 +5,14 @@ module VoxeoLabs
 
     attr_reader :bucket_name, :aws_secret, :aws_key, :project_name
 
-    def initialize(dir)
+    def initialize(path)
       file_name=".deployer"
 
-      Pathname.new(dir).ascend do |dir|
+      Pathname.new(path).ascend do |dir|
         config_file = dir + file_name
-          if dir.children.include?(config_file)
-            merge_config(YAML::load_file(config_file))
-          end
-        #end
-
+        if dir.children.include?(config_file)
+          merge_config(YAML::load_file(config_file))
+        end
       end
 
     end
@@ -43,3 +41,5 @@ module VoxeoLabs
 
   end
 end
+
+
